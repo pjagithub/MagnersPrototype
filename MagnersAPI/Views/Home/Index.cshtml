@@ -1,0 +1,72 @@
+﻿<div id="divbody">
+    @*<section class="content-wrapper main-content clear-fix">*@
+    <section>
+        <div>
+            <h1>API project</h1>
+        </div>
+        <div>
+            <h2>Background Image</h2>
+            <ul id="image" />
+        </div>
+     
+        <div>
+            <h2>Enter Tags (enter comma-separated)</h2>
+            <input type="text" id="imageTags" size="5" />
+            <input type="button" value="Set Background" onclick="setBackground();" />
+        </div>
+    </section>
+</div>
+
+@section scripts {
+<script>
+    $(document).ready(function () {
+        
+    });
+
+    // Get an image filename from tags and set the background
+    //
+    // host:port/api/image/?requestTags='TAG,TAG'
+    // ImageController, method:  GetImage
+    function setBackground() {
+        var tags = $('#imageTags').val();
+        var apiUrl = 'api/image/?tags=' + tags;
+
+        $.getJSON(apiUrl)
+            .done(function (data) {             
+                $('#image').text(formatItem(data));
+
+                var imageUrl = data.fileName;
+                $('body').css('background', 'url(' + imageUrl + ')');
+            })
+            .fail(function (jqXHR, textStatus, err) {
+                $('#image').text('Error: ' + err);
+                $('body').css('background', 'none');
+            });
+    }
+
+    // Get all images from tags and list the filename/s
+    //
+    // host:port/api/image/?requestTags='TAG,TAG'&allImages=TRUE
+    // ImageController, method: GetAllImagesByTags
+    function listImages() {
+        $('#imagesByTags').empty();
+
+        var tags = $('#imageTags').val();
+        $.getJSON(apiUrl + '/?requestTags=' + tags + "&allImages=TRUE")
+        .done(function (data) {
+            $.each(data, function (key, item) {
+                $('<li>', { text: formatItem(item) }).appendTo($('#imagesByTags'));
+            });
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            $('#image').text('Error: ' + err);
+            $('body').css('background', 'none');
+        });
+    }
+
+    function formatItem(item) {
+        return item.id + " - " + item.fileName + " - " + item.tags;
+    }
+
+</script>
+}

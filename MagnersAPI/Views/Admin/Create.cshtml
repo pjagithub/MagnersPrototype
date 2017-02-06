@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id="formCreate" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Image</legend>
+
+        <div>
+            <label>Image File</label>
+            <input type="file" id="uploadFile" name="file" />
+        </div>
+
+        <div>
+            <label>Tags</label>
+            <select id="selTags" name="selTags"></select>
+            <button id="btnAddTag" type="button">Add Tag</button>
+        </div>
+        <div>
+            <input id="txtTags" name="tags" type="text" readonly="true" />
+        </div>
+
+        <p>
+            <input type="submit" value="Create" onclick="CreateCheck(); return false" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>
+
+@section scripts {
+<script>
+
+    $(document).ready(function () {   
+        // populate the tags drop down
+        getTags();
+
+        // create a list of tags
+        $('#btnAddTag').click(function () {
+            var tagID = document.getElementById("selTags").value;
+            if (tagID == -1) {
+                alert("Please select a Tag");
+            }
+            else {
+                var newTag = $.trim($('#selTags option:selected').text());
+                if ($('#txtTags').val().indexOf(newTag) == -1) {
+                    if ($('#txtTags').val() == "") {
+                        $('#txtTags').val(newTag);
+                    }
+                    else {
+                        $('#txtTags').val(
+                            $('#txtTags').val()
+                            + ","
+                            + newTag);
+                    }
+                }                
+            }
+        });
+    });
+
+    function getTags() {
+        $.getJSON("/Api/Tags")
+        .done(function (data) {
+            $('#selTags').find('option').remove().end().append('<option selected value=-1>--select--</option>');
+            if (data.length == 0) {
+                alert('No Tags exist');
+            } else {
+                $.each(data, function (i, item) {
+                    var combo = document.getElementById("selTags");
+                    var option = document.createElement("option");
+                    option.text = item.name;
+                    option.value = item.id;
+                    combo.add(option, null);
+                });
+            }
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alert("error - " + err);
+        });
+    }
+
+    function CreateCheck() {
+        if ( ($('#txtTags').val() == "") || ($('#uploadFile').val() == "") ) {
+            alert("No image file and/or tags have been selected.");
+        }
+        else {
+            document.getElementById('formCreate').submit();
+        }
+    }
+ 
+</script>
+}

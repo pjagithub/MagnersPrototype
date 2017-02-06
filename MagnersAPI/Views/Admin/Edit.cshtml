@@ -1,0 +1,35 @@
+﻿@model Magners.Models.Image
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+@*        <script>alert('problem')</script> %3Cscript%3Ealert('problem')%3C/script%3E *@ 
+        <legend>Image (ID: @Html.Encode(ViewBag.ImageID))</legend>
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FileName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.FileName)
+            @Html.ValidationMessageFor(model => model.FileName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Tags)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Tags)
+            @Html.ValidationMessageFor(model => model.Tags)
+        </div>
+    </fieldset>
+    
+    <p>
+        <input type="submit" value="Save" /> |
+        @Html.ActionLink("Back to List", "List")
+    </p>
+}

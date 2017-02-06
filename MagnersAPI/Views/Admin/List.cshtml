@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Magners.Models.Image>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div>
+    <table>
+        <tr>
+            <td></td>
+            <td width="200">
+                <h3>File Name</h3>
+            </td>
+            <td width="400" style="text-align:left">
+                <h3>Tags</h3>
+            </td>
+            <td></td>
+        </tr>
+
+        @foreach (var image in Model)
+        {     
+            <tr>
+                <td>
+                    <img src="~/Images/@image.FileName" height="50" width="50" />
+                </td>
+                <td width="200">
+                    @Html.DisplayFor(modelImage => image.FileName)
+                </td>
+                <td width="400" style="text-align:left">
+                    @Html.DisplayFor(modelImage => image.Tags)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=image.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=image.Id })
+                </td>
+             </tr>
+        }
+    </table>
+</div>
+
+@section scripts {
+<script>
+
+    $(document).ready(function () {
+        $("table > tbody tr:odd").css("background-color", "#DEDEDE");
+    });
+
+</script>
+}
