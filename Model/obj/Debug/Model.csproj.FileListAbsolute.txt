@@ -1,0 +1,7 @@
+c:\users\paul attridge\documents\visual studio 2012\Projects\MagnersAPI\Model\bin\Debug\Model.dll
+c:\users\paul attridge\documents\visual studio 2012\Projects\MagnersAPI\Model\bin\Debug\Model.pdb
+c:\users\paul attridge\documents\visual studio 2012\Projects\MagnersAPI\Model\obj\Debug\Model.dll
+c:\users\paul attridge\documents\visual studio 2012\Projects\MagnersAPI\Model\obj\Debug\Model.pdb
+c:\users\paul attridge\documents\visual studio 2012\Projects\MagnersAPI\Model\bin\Debug\Model.dll.config
+c:\users\paul attridge\documents\visual studio 2012\Projects\MagnersAPI\Model\bin\Debug\EntityFramework.dll
+c:\users\paul attridge\documents\visual studio 2012\Projects\MagnersAPI\Model\bin\Debug\EntityFramework.xml
