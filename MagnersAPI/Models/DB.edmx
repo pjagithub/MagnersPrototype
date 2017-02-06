@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MagnersContentModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MagnersContentModelStoreContainer">
+          <EntitySet Name="Copy" EntityType="MagnersContentModel.Store.Copy" store:Type="Tables" store:Schema="dbo" store:Name="Copy">
+            <DefiningQuery>SELECT 
+      [Copy].[Id] AS [Id], 
+      [Copy].[Text] AS [Text], 
+      [Copy].[ImageId] AS [ImageId]
+      FROM [dbo].[Copy] AS [Copy]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Images" EntityType="MagnersContentModel.Store.Images" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ImageType" EntityType="MagnersContentModel.Store.ImageType" store:Type="Tables" store:Schema="dbo" store:Name="ImageType">
+            <DefiningQuery>SELECT 
+      [ImageType].[Id] AS [Id], 
+      [ImageType].[Description] AS [Description], 
+      [ImageType].[Code] AS [Code]
+      FROM [dbo].[ImageType] AS [ImageType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Tags" EntityType="MagnersContentModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Copy_Images" Association="MagnersContentModel.Store.FK_Copy_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Copy" EntitySet="Copy" />
+          </AssociationSet>
+        </EntityContainer>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'MagnersContent.dbo.Copy' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="Copy">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Text" />
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="ImageId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Tags" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ImageType" Type="char" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'MagnersContent.dbo.ImageType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="ImageType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Code" Type="char" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Copy_Images">
+          <End Role="Images" Type="MagnersContentModel.Store.Images" Multiplicity="1" />
+          <End Role="Copy" Type="MagnersContentModel.Store.Copy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Copy">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MagnersContentModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MagnersContentEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Images" EntityType="MagnersContentModel.Image" />
+          <EntitySet Name="Tags" EntityType="MagnersContentModel.Tag" />
+          <EntitySet Name="ImageTypes" EntityType="MagnersContentModel.ImageType" />
+          <EntitySet Name="Copies" EntityType="MagnersContentModel.Copy" />
+          <AssociationSet Name="FK_Copy_Images" Association="MagnersContentModel.FK_Copy_Images">
+            <End Role="Image" EntitySet="Images" />
+            <End Role="Copy" EntitySet="Copies" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Tags" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Type="String" Name="ImageType" MaxLength="10" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Copies" Relationship="MagnersContentModel.FK_Copy_Images" FromRole="Image" ToRole="Copy" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ImageType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Copy">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Text" />
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ImageId" Nullable="false" />
+          <NavigationProperty Name="Image" Relationship="MagnersContentModel.FK_Copy_Images" FromRole="Copy" ToRole="Image" />
+        </EntityType>
+        <Association Name="FK_Copy_Images">
+          <End Type="MagnersContentModel.Image" Role="Image" Multiplicity="1" />
+          <End Type="MagnersContentModel.Copy" Role="Copy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Copy">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MagnersContentModelStoreContainer" CdmEntityContainer="MagnersContentEntities">
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="MagnersContentModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="MagnersContentModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImageTypes">
+            <EntityTypeMapping TypeName="MagnersContentModel.ImageType">
+              <MappingFragment StoreEntitySet="ImageType">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Copies">
+            <EntityTypeMapping TypeName="MagnersContentModel.Copy">
+              <MappingFragment StoreEntitySet="Copy">
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

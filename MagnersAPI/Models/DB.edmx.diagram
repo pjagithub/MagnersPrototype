@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="73f61017393c46dfbb5748200acb2dcb" Name="Diagram1">
+        <EntityTypeShape EntityType="MagnersContentModel.Image" Width="1.5" PointX="2.625" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MagnersContentModel.Tag" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MagnersContentModel.ImageType" Width="1.5" PointX="0.5" PointY="3.375" />
+        <EntityTypeShape EntityType="MagnersContentModel.Copy" Width="1.5" PointX="5.375" PointY="3" />
+        <AssociationConnector Association="MagnersContentModel.FK_Copy_Images" ManuallyRouted="false" >
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
